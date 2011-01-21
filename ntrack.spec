@@ -38,25 +38,12 @@ Qt4 bindings for ntrack library.
 %description qt4 -l pl.UTF-8
 Dowiązania qt4 dla  biblioteki ntrack.
 
-%package glib
-Summary:	Glib bindings for ntrack library
-Summary(pl.UTF-8):	Dowiązania glib dla  biblioteki ntrack
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description glib
-Glib bindings for ntrack library.
-
-%description glib -l pl.UTF-8
-Dowiązania glib dla  biblioteki ntrack.
-
 %package devel
 Summary:	Header files for ntrack library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki ntrack
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	%{name}-qt4 = %{version}-%{release}
-Requires:	%{name}-glib = %{version}-%{release}
 
 %description devel
 Header files for ntrack library.
@@ -100,11 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %postun	-p /sbin/ldconfig
 %post	qt4	-p /sbin/ldconfig
 %postun	qt4	-p /sbin/ldconfig
-%post	glib	-p /sbin/ldconfig
-%postun	glib	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
+%attr(755,root,root) %ghost %{_libdir}/libntrack-glib.so.?
+%attr(755,root,root) %{_libdir}/libntrack-glib.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libntrack-gobject.so.?
+%attr(755,root,root) %{_libdir}/libntrack-gobject.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libntrack.so.?
 %attr(755,root,root) %{_libdir}/libntrack.so.*.*.*
 %dir %{_libdir}/ntrack
@@ -116,13 +105,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %ghost %{_libdir}/libntrack-qt4.so.?
 %attr(755,root,root) %{_libdir}/libntrack-qt4.so.*.*.*
-
-%files glib
-%defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libntrack-glib.so.?
-%attr(755,root,root) %{_libdir}/libntrack-glib.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libntrack-gobject.so.?
-%attr(755,root,root) %{_libdir}/libntrack-gobject.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
