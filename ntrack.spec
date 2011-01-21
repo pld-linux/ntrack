@@ -15,7 +15,12 @@ Patch0:		%{name}-h2def.patch
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	libnl-devel
+BuildRequires:	libtool
+BuildRequires:	pkgconfig
 BuildRequires:	python-pygobject-devel
+BuildRequires:	qt4-build
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,7 +41,7 @@ Requires:	%{name} = %{version}-%{release}
 Qt4 bindings for ntrack library.
 
 %description qt4 -l pl.UTF-8
-Dowiązania qt4 dla  biblioteki ntrack.
+Dowiązania qt4 dla biblioteki ntrack.
 
 %package devel
 Summary:	Header files for ntrack library
