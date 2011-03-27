@@ -4,18 +4,19 @@
 Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
-Version:	0.11
-Release:	2
+Version:	0.13
+Release:	1
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
-Source0:	http://launchpad.net/ntrack/main/011/+download/%{name}-%{_realver}.tar.gz
-# Source0-md5:	7ae0437e0865f1ec313b1436d4d75a43
+Source0:	http://launchpad.net/ntrack/main/013/+download/%{name}-%{_realver}.tar.gz
+# Source0-md5:	90596b924a108f8b4eea52239ba64369
 URL:		http://launchpad.net/ntrack
 Patch0:		%{name}-h2def.patch
+Patch1:		%{name}-libnl.patch
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libnl-devel
+BuildRequires:	libnl-devel >= 1:3.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygobject-devel
@@ -70,7 +71,8 @@ Statyczna biblioteka ntrack.
 
 %prep
 %setup -q -n %{name}-%{_realver}
-%patch0 -p0
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal} -I m4
@@ -103,7 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libntrack.so.*.*.*
 %dir %{_libdir}/ntrack
 %dir %{_libdir}/ntrack/modules
-%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl1.so
+%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3.so
 %attr(755,root,root) %{_libdir}/python2.7/site-packages/pyntrack.so
 
 %files qt4
@@ -130,5 +132,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libntrack-gobject.a
 %attr(755,root,root) %{_libdir}/libntrack-qt4.a
 %attr(755,root,root) %{_libdir}/libntrack.a
-%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl1.a
+%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3.a
 %attr(755,root,root) %{_libdir}/python2.7/site-packages/pyntrack.a

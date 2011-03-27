@@ -1,13 +1,13 @@
---- configure.ac.orig	2011-01-21 17:53:50.195298265 +0100
-+++ configure.ac	2011-01-21 17:53:59.381912529 +0100
-@@ -110,8 +110,8 @@
-            AC_SUBST(PYGOBJECT_CFLAGS)
-            AC_SUBST(PYGOBJECT_LIBS)])
- 
--  if test -x /usr/share/pygobject/2.0/codegen/h2def.py; then
--    H2DEF=/usr/share/pygobject/2.0/codegen/h2def.py
-+  if test -f /usr/share/pygobject/2.0/codegen/h2def.pyc; then
-+    H2DEF=/usr/share/pygobject/2.0/codegen/h2def.pyc
+diff -urN ntrack-013.org/configure.ac ntrack-013/configure.ac
+--- ntrack-013.org/configure.ac	2011-03-27 19:59:12.000000000 +0200
++++ ntrack-013/configure.ac	2011-03-27 23:22:15.663309599 +0200
+@@ -115,6 +115,9 @@
+   if test -x /usr/share/pygobject/2.0/codegen/h2def.py; then
+     H2DEF=/usr/share/pygobject/2.0/codegen/h2def.py
      PYG_CODEGEN=pygobject-codegen-2.0
++  elif test -f /usr/share/pygobject/2.0/codegen/h2def.pyc; then
++    H2DEF=/usr/share/pygobject/2.0/codegen/h2def.pyc
++    PYG_CODEGEN=pygobject-codegen-2.0
    elif test -x /usr/share/pygtk/2.0/codegen/h2def.py; then
      H2DEF=/usr/share/pygtk/2.0/codegen/h2def.py
+     PYG_CODEGEN=pygtk-codegen-2.0
