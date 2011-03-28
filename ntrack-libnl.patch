@@ -1,18 +1,19 @@
 --- ntrack-013.org/configure.ac	2011-03-27 19:59:12.000000000 +0200
 +++ ntrack-013/configure.ac	2011-03-27 23:25:44.112838906 +0200
-@@ -139,6 +142,11 @@
+@@ -139,6 +139,12 @@
  
  AM_CONDITIONAL(HAVE_QT4, test $ac_have_qt4 = 1)
  
 +PKG_CHECK_MODULES(LIBNL3, libnl-3.0, ac_have_libnl3=1, ac_have_libnl3=0)
 +AC_SUBST(LIBNL3_CFLAGS)
++LIBNL3_LIBS="$LIBNL3_LIBS -lnl-route"
 +AC_SUBST(LIBNL3_LIBS)
 +AM_CONDITIONAL(HAVE_LIBNL3, test $ac_have_libnl3 = 1)
 +
  PKG_CHECK_MODULES(LIBNL2, libnl-2.0, ac_have_libnl2=1, ac_have_libnl2=0)
  AC_SUBST(LIBNL2_CFLAGS)
  AC_SUBST(LIBNL2_LIBS)
-@@ -150,7 +158,7 @@
+@@ -150,7 +156,7 @@
  AM_CONDITIONAL(HAVE_LIBNL1, test $ac_have_libnl1 = 1)
  
  # consistency checks

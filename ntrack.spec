@@ -5,7 +5,7 @@ Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
 Version:	0.13
-Release:	1
+Release:	2
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
 Source0:	http://launchpad.net/ntrack/main/013/+download/%{name}-%{_realver}.tar.gz
