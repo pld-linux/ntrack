@@ -4,15 +4,13 @@
 Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
-Version:	0.13
-Release:	2
+Version:	0.14
+Release:	1
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
-Source0:	http://launchpad.net/ntrack/main/013/+download/%{name}-%{_realver}.tar.gz
-# Source0-md5:	90596b924a108f8b4eea52239ba64369
+Source0:	http://launchpad.net/ntrack/main/014/+download/%{name}-%{_realver}.tar.gz
+# Source0-md5:	d8af7c0f77c030d089bfa5ce0dd1057b
 URL:		http://launchpad.net/ntrack
-Patch0:		%{name}-h2def.patch
-Patch1:		%{name}-libnl.patch
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -44,6 +42,18 @@ Qt4 bindings for ntrack library.
 %description qt4 -l pl.UTF-8
 Dowiązania qt4 dla biblioteki ntrack.
 
+%package -n python-ntrack
+Summary:	python bindings for ntrack library
+Summary(pl.UTF-8):	Dowiązania python dla  biblioteki ntrack
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python-ntrack
+Python bindings for ntrack library.
+
+%description -n python-ntrack -l pl.UTF-8
+Dowiązania python dla biblioteki ntrack.
+
 %package devel
 Summary:	Header files for ntrack library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki ntrack
@@ -71,13 +81,8 @@ Statyczna biblioteka ntrack.
 
 %prep
 %setup -q -n %{name}-%{_realver}
-%patch0 -p1
-%patch1 -p1
 
 %build
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
 %configure
 
 %{__make}
@@ -106,12 +111,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ntrack
 %dir %{_libdir}/ntrack/modules
 %attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3.so
-%attr(755,root,root) %{_libdir}/python2.7/site-packages/pyntrack.so
 
 %files qt4
 %defattr(644,root,root,755)
 %attr(755,root,root) %ghost %{_libdir}/libntrack-qt4.so.?
 %attr(755,root,root) %{_libdir}/libntrack-qt4.so.*.*.*
+
+%files -n python-ntrack
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/pyntrack.so
 
 %files devel
 %defattr(644,root,root,755)
