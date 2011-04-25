@@ -5,12 +5,13 @@ Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
 Version:	0.14
-Release:	2
+Release:	3
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
 Source0:	http://launchpad.net/ntrack/main/014/+download/%{name}-%{_realver}.tar.gz
 # Source0-md5:	d8af7c0f77c030d089bfa5ce0dd1057b
 Patch0:		%{name}-link.patch
+Patch1:		%{name}-lp-755608.patch
 URL:		http://launchpad.net/ntrack
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
@@ -83,6 +84,7 @@ Statyczna biblioteka ntrack.
 %prep
 %setup -q -n %{name}-%{_realver}
 %patch0 -p1
+%patch1 -p0
 
 %build
 %configure
