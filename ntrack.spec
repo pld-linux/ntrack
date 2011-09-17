@@ -5,7 +5,7 @@ Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
 Version:	0.14
-Release:	4
+Release:	5
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
 Source0:	http://launchpad.net/ntrack/main/014/+download/%{name}-%{_realver}.tar.gz
@@ -16,7 +16,7 @@ URL:		http://launchpad.net/ntrack
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libnl-devel >= 1:3.0
+BuildRequires:	libnl-devel >= 1:3.2
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygobject-devel
@@ -87,6 +87,11 @@ Statyczna biblioteka ntrack.
 %patch1 -p0
 
 %build
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__automake}
+CFLAGS="%{rpmcflags} -std=c99 -D_GNU_SOURCE=1"
 %configure
 
 %{__make}

@@ -25,3 +25,16 @@
  ntrack_libnl3_la_LDFLAGS = $(ntrack_libnl_ldflags)
  endif
  
+--- ntrack-014/configure.ac~	2011-04-03 23:18:31.000000000 +0200
++++ ntrack-014/configure.ac	2011-09-17 09:04:33.941929805 +0200
+@@ -170,9 +170,7 @@
+ 
+ AM_CONDITIONAL(HAVE_QT4, test $ac_have_qt4 = 1)
+ 
+-PKG_CHECK_MODULES(LIBNL3, libnl-3.0, ac_have_libnl3=1, ac_have_libnl3=0)
+-AS_IF([test x$ac_have_libnl3 = x1],
+-	[LIBNL3_LIBS="$LIBNL3_LIBS -lnl-route"])
++PKG_CHECK_MODULES(LIBNL3, [libnl-3.0 libnl-route-3.0], ac_have_libnl3=1, ac_have_libnl3=0)
+ AC_SUBST(LIBNL3_CFLAGS)
+ AC_SUBST(LIBNL3_LIBS)
+ AM_CONDITIONAL(HAVE_LIBNL3, test $ac_have_libnl3 = 1)
