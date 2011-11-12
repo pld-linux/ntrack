@@ -1,28 +1,29 @@
 #
+%bcond_without	tests
+#
 %define		_realver	%(echo %{version} | tr -d .)
 
 Summary:	Program
 Summary(pl.UTF-8):	Program
 Name:		ntrack
-Version:	0.14
-Release:	5
+Version:	0.15
+Release:	1
 License:	GPL v3/LGPL v3
 Group:		Development/Libraries
-Source0:	http://launchpad.net/ntrack/main/014/+download/%{name}-%{_realver}.tar.gz
-# Source0-md5:	d8af7c0f77c030d089bfa5ce0dd1057b
-Patch0:		%{name}-link.patch
-Patch1:		%{name}-lp-755608.patch
+Source0:	http://launchpad.net/ntrack/main/015/+download/%{name}-%{_realver}.tar.gz
+# Source0-md5:	67d8f49538fb3927303e57f35e85dc9e
 URL:		http://launchpad.net/ntrack
 BuildRequires:	QtCore-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libnl-devel >= 1:3.2
+BuildRequires:	libnl-devel >= 1:3.2.3
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygobject-devel
 BuildRequires:	qt4-build
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.600
+Requires:	libnl >= 1:3.2.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -83,8 +84,6 @@ Statyczna biblioteka ntrack.
 
 %prep
 %setup -q -n %{name}-%{_realver}
-%patch0 -p1
-%patch1 -p0
 
 %build
 %{__libtoolize}
@@ -95,6 +94,8 @@ CFLAGS="%{rpmcflags} -std=c99 -D_GNU_SOURCE=1"
 %configure
 
 %{__make}
+
+%{?with_tests:%{__make} -j1 check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -119,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libntrack.so.*.*.*
 %dir %{_libdir}/ntrack
 %dir %{_libdir}/ntrack/modules
-%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3.so
+%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3_x.so
 
 %files qt4
 %defattr(644,root,root,755)
@@ -149,5 +150,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libntrack-gobject.a
 %attr(755,root,root) %{_libdir}/libntrack-qt4.a
 %attr(755,root,root) %{_libdir}/libntrack.a
-%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3.a
+%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3_x.a
 %attr(755,root,root) %{_libdir}/python2.7/site-packages/pyntrack.a
