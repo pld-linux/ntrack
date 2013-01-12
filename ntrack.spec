@@ -1,26 +1,29 @@
 #
 %bcond_without	tests
 #
-%define		_realver	%(echo %{version} | tr -d .)
+%define		file_ver	%(echo %{version} | tr -d .)
 
-Summary:	Program
-Summary(pl.UTF-8):	Program
+Summary:	Network status tracking made easy for desktop applications
+Summary(pl.UTF-8):	Łatwe śledzenie stanu sieci dla aplikacji użytkowych
 Name:		ntrack
-Version:	0.15
+Version:	0.16
 Release:	1
-License:	GPL v3/LGPL v3
-Group:		Development/Libraries
-Source0:	http://launchpad.net/ntrack/main/015/+download/%{name}-%{_realver}.tar.gz
-# Source0-md5:	67d8f49538fb3927303e57f35e85dc9e
+License:	LGPL v3+
+Group:		Libraries
+Source0:	http://launchpad.net/ntrack/main/016/+download/%{name}-%{file_ver}.tar.gz
+# Source0-md5:	21691dac43460a6791cba3decbc68242
+Patch0:		%{name}-am.patch
 URL:		http://launchpad.net/ntrack
-BuildRequires:	QtCore-devel
-BuildRequires:	autoconf
+BuildRequires:	QtCore-devel >= 4
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
+BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	libnl-devel >= 1:3.2.3
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-BuildRequires:	python-pygobject-devel
-BuildRequires:	qt4-build
+BuildRequires:	python-devel >= 2.3.5
+BuildRequires:	python-pygobject-devel >= 2.0
+BuildRequires:	qt4-build >= 4
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.600
 Requires:	libnl >= 1:3.2.3
@@ -32,30 +35,34 @@ application developers that want to get events on network online
 status changes such as online, offline or route changes.
 
 %description -l pl.UTF-8
+Projekt ntrack ma na celu dostarczenie lekkiej i łatwej w użyciu
+biblioteki dla programistów aplikacji chcących otrzymywać zdarzenia
+przy zmianach stanu podłączenia do sieci, tzn. podłączenia, odłączenia
+lub zmianach trasowania.
 
 %package qt4
 Summary:	Qt4 bindings for ntrack library
-Summary(pl.UTF-8):	Dowiązania qt4 dla  biblioteki ntrack
-Group:		Development/Libraries
+Summary(pl.UTF-8):	Wiązania Qt4 do biblioteki ntrack
+Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description qt4
 Qt4 bindings for ntrack library.
 
 %description qt4 -l pl.UTF-8
-Dowiązania qt4 dla biblioteki ntrack.
+Wiązania Qt4 do biblioteki ntrack.
 
 %package -n python-ntrack
-Summary:	python bindings for ntrack library
-Summary(pl.UTF-8):	Dowiązania python dla  biblioteki ntrack
-Group:		Development/Libraries
+Summary:	Python bindings for ntrack library
+Summary(pl.UTF-8):	Wiązania Pythona do biblioteki ntrack
+Group:		Libraries/Python
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python-ntrack
 Python bindings for ntrack library.
 
 %description -n python-ntrack -l pl.UTF-8
-Dowiązania python dla biblioteki ntrack.
+Wiązania Pythona do biblioteki ntrack.
 
 %package devel
 Summary:	Header files for ntrack library
@@ -83,12 +90,14 @@ Static ntrack library.
 Statyczna biblioteka ntrack.
 
 %prep
-%setup -q -n %{name}-%{_realver}
+%setup -q -n %{name}-%{file_ver}
+%patch0 -p1
 
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 CFLAGS="%{rpmcflags} -std=c99 -D_GNU_SOURCE=1"
 %configure
@@ -102,30 +111,38 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
+# loadable modules
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ntrack/modules/ntrack-*.{la,a} \
+	$RPM_BUILD_ROOT%{py_sitedir}/pyntrack.{la,a}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
-%post	qt4	-p /sbin/ldconfig
-%postun	qt4	-p /sbin/ldconfig
+
+%post	qt4 -p /sbin/ldconfig
+%postun	qt4 -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libntrack-glib.so.?
-%attr(755,root,root) %{_libdir}/libntrack-glib.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libntrack-gobject.so.?
-%attr(755,root,root) %{_libdir}/libntrack-gobject.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libntrack.so.?
+%doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_libdir}/libntrack.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libntrack.so.0
+%attr(755,root,root) %{_libdir}/libntrack-glib.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libntrack-glib.so.2
+%attr(755,root,root) %{_libdir}/libntrack-gobject.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libntrack-gobject.so.1
 %dir %{_libdir}/ntrack
 %dir %{_libdir}/ntrack/modules
 %attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3_x.so
 
 %files qt4
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libntrack-qt4.so.?
 %attr(755,root,root) %{_libdir}/libntrack-qt4.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libntrack-qt4.so.1
 
 %files -n python-ntrack
 %defattr(644,root,root,755)
@@ -133,11 +150,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libntrack.so
 %attr(755,root,root) %{_libdir}/libntrack-glib.so
 %attr(755,root,root) %{_libdir}/libntrack-gobject.so
 %attr(755,root,root) %{_libdir}/libntrack-qt4.so
-%attr(755,root,root) %{_libdir}/libntrack.so
-%{_pkgconfigdir}/libntrack*.pc
+%{_pkgconfigdir}/libntrack.pc
+%{_pkgconfigdir}/libntrack-glib.pc
+%{_pkgconfigdir}/libntrack-gobject.pc
+%{_pkgconfigdir}/libntrack-qt4.pc
 %dir %{_includedir}/ntrack
 %{_includedir}/ntrack/common
 %{_includedir}/ntrack/glib
@@ -150,5 +170,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libntrack-gobject.a
 %attr(755,root,root) %{_libdir}/libntrack-qt4.a
 %attr(755,root,root) %{_libdir}/libntrack.a
-%attr(755,root,root) %{_libdir}/ntrack/modules/ntrack-libnl3_x.a
-%attr(755,root,root) %{_libdir}/python2.7/site-packages/pyntrack.a
