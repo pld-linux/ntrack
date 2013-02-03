@@ -7,7 +7,7 @@ Summary:	Network status tracking made easy for desktop applications
 Summary(pl.UTF-8):	Łatwe śledzenie stanu sieci dla aplikacji użytkowych
 Name:		ntrack
 Version:	0.16
-Release:	3
+Release:	4
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://launchpad.net/ntrack/main/016/+download/%{name}-%{file_ver}.tar.gz
@@ -27,6 +27,7 @@ BuildRequires:	python-pygobject-devel >= 2.0
 BuildRequires:	qt4-build >= 4
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.600
+BuildConflicts:	libnl1-devel
 Requires:	libnl >= 1:3.2.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
