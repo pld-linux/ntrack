@@ -7,13 +7,12 @@ Summary:	Network status tracking made easy for desktop applications
 Summary(pl.UTF-8):	Łatwe śledzenie stanu sieci dla aplikacji użytkowych
 Name:		ntrack
 Version:	0.16
-Release:	4
+Release:	4.1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://launchpad.net/ntrack/main/016/+download/%{name}-%{file_ver}.tar.gz
 # Source0-md5:	21691dac43460a6791cba3decbc68242
 Patch0:		%{name}-am.patch
-Patch1:		%{name}-libnl.patch
 URL:		http://launchpad.net/ntrack
 BuildRequires:	QtCore-devel >= 4
 BuildRequires:	autoconf >= 2.50
@@ -156,7 +155,6 @@ Wiązania Pythona do biblioteki ntrack.
 %prep
 %setup -q -n %{name}-%{file_ver}
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
