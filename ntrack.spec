@@ -13,6 +13,8 @@ Group:		Libraries
 Source0:	http://launchpad.net/ntrack/main/016/+download/%{name}-%{file_ver}.tar.gz
 # Source0-md5:	21691dac43460a6791cba3decbc68242
 Patch0:		%{name}-am.patch
+# THIS IS HACK, FIND A PROPER SOLUTION
+Patch1:		%{name}-hack.patch
 URL:		http://launchpad.net/ntrack
 BuildRequires:	QtCore-devel >= 4
 BuildRequires:	autoconf >= 2.50
@@ -155,6 +157,7 @@ Wiązania Pythona do biblioteki ntrack.
 %prep
 %setup -q -n %{name}-%{file_ver}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
