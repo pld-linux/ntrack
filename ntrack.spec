@@ -7,7 +7,7 @@ Summary:	Network status tracking made easy for desktop applications
 Summary(pl.UTF-8):	Łatwe śledzenie stanu sieci dla aplikacji użytkowych
 Name:		ntrack
 Version:	0.17
-Release:	1
+Release:	2
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://launchpad.net/ntrack/main/%{file_ver}/+download/%{name}-%{file_ver}.tar.gz
