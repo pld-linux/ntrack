@@ -154,7 +154,7 @@ Wiązania Pythona do biblioteki ntrack.
 
 %prep
 %setup -q -n %{name}-%{file_ver}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__libtoolize}
